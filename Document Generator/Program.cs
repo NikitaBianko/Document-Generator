@@ -1,12 +1,16 @@
-﻿using System;
+﻿using HandlebarsDotNet;
+using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 
 namespace Document_Generator
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main(string[] args) 
         {
             Console.WriteLine("enter year/month");
 
@@ -45,6 +49,54 @@ namespace Document_Generator
                 CheckTime += item.DurationOfWork;
             }
             Console.WriteLine($"total hours -> {CheckTime.TotalHours}\n{document.Count} days");
+            PDFGenerate(document);
+        }
+        public static void PDFGenerate(List<WorkingHours> document)
+        {
+            Handlebars.RegisterHelper("date", (writer, context, parameters) =>
+            {
+                DateTime date = (DateTime)context["Day"];
+                writer.WriteSafeString(date.ToString(@"dd\.mm\.yyyy", new CultureInfo("de-De")));
+            });
+
+            Handlebars.RegisterHelper("begin", (writer, context, parameters) =>
+            {
+                TimeSpan BeginningOfWork = (TimeSpan)context["BeginningOfWork"];
+                writer.WriteSafeString(BeginningOfWork.ToString(@"hh\:mm", new CultureInfo("en-US")));
+            });
+
+            Handlebars.RegisterHelper("ende", (writer, context, parameters) =>
+            {
+                TimeSpan BeginningOfWork = (TimeSpan)context["BeginningOfWork"];
+                TimeSpan durationWork = (TimeSpan)context["DurationOfWork"];
+                writer.WriteSafeString((BeginningOfWork + durationWork).ToString(@"hh\:mm", new CultureInfo("en-US")));
+            });
+
+            Handlebars.RegisterHelper("durationWork", (writer, context, parameters) =>
+            {
+                TimeSpan durationWork = (TimeSpan)context["DurationOfWork"];
+                writer.WriteSafeString(durationWork.ToString(@"hh\:mm", new CultureInfo("en-US")));
+            });
+
+            string html = System.IO.File.ReadAllText(@"D:\nikita\projects\Document Generator\Document Generator\index.html");
+
+            var template = Handlebars.Compile(html);
+
+            var data = new
+            {
+                WorkingHours = document
+            };
+
+            var result = template(data);
+
+            var htmlToPdf = new HtmlToPDFCore.HtmlToPDF();
+            var pdf = htmlToPdf.ReturnPDF(result);
+
+            File.Delete(@"D:\nikita\projects\Document Generator\index.pdf");
+
+            FileStream fs = new FileStream(@"D:\nikita\projects\Document Generator\index.pdf", FileMode.CreateNew);
+            fs.Write(pdf, 0, pdf.Length);
+            fs.Close();
         }
         public static List<WorkingHours> DocumentGenerator(WorkingMonth requirements, List<DateTime> holidays = null)
         {
@@ -79,7 +131,7 @@ namespace Document_Generator
             }
 
             Random rnd = new Random();
-            int repeat = rnd.Next(1, (int)(average.TotalMinutes / 60));
+            int repeat = rnd.Next(1, (int)(Math.Ceiling((double)workingDays.Count / 10)));
             if (average == requirements.MinimumWorkingHours && average.TotalMinutes / 30 < 3) repeat = 0;
 
             for (int i = 0; i < 1; i++)
@@ -93,28 +145,25 @@ namespace Document_Generator
         public static List<DateTime> deletingWorkingDays(WorkingMonth requirements, List<DateTime> workingDays)
         {
 
-            int maximumNumberDays = (int)Math.Min(Math.Ceiling(requirements.WorkingHours / requirements.MinimumWorkingHours), workingDays.Count);
+            int maximumNumberDays = (int)Math.Min(Math.Floor(requirements.WorkingHours / requirements.MinimumWorkingHours), workingDays.Count);
             int minimumNumberDays = (int)Math.Ceiling(requirements.WorkingHours / requirements.MaximumWorkingHours);
 
             Random rnd = new Random();
 
             int numberWorkingDays = rnd.Next(minimumNumberDays, maximumNumberDays);
 
-            List<DateTime> newWorkingDays = new List<DateTime>(numberWorkingDays);
-
-            for (int i = 0; i < numberWorkingDays; i++)
+            for (int i = 0; workingDays.Count != numberWorkingDays; i++)
             {
                 int x = rnd.Next(0, workingDays.Count);
-                newWorkingDays.Add(workingDays[x]);
                 workingDays.RemoveAt(x);
             }
 
 
-            return newWorkingDays.OrderBy(day => day).ToList();
+            return workingDays;
         }
         public static List<TimeSpan> Noise(WorkingMonth requirements, List<TimeSpan> workingHours)
         {
-            for (int i = 0; i < workingHours.Count; i++)
+            for (int i = 0; i < workingHours.Count && workingHours.Count > 1; i++)
             {
                 Random rnd = new Random();
 
@@ -129,6 +178,15 @@ namespace Document_Generator
 
                 if (minimumRange == 0)
                 {
+                    int countMax = 0;
+                    int countMin = 0;
+                    foreach (var time in workingHours)
+                    {
+                        if (time == requirements.MaximumWorkingHours) countMax++;
+                        if (time == requirements.MinimumWorkingHours) countMin++;
+                    }
+                    if(countMax >= workingHours.Count - 2 || countMin >= workingHours.Count - 2)
+                        return workingHours;
                     i--;
                     continue;
                 }

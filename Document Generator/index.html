@@ -1,0 +1,40 @@
+﻿<html>
+    <head>
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            td, th {
+                border: 1px solid black;
+                padding: 10px;
+            }
+
+            td {
+                text-align: center;
+            }
+        </style>
+        <title>Document</title>
+    </head>
+    <body>
+        <h1 style="text-align: center">Stundenzettel</h1>
+        <h2> Name:</h2>
+        <table>
+            <tr>
+                <th>Datum</th>
+                <th>beginn</th>
+                <th>Ende</th>
+                <th>Arbeitszeit</th>
+            </tr>
+            {{#WorkingHours}}
+            <tr>
+                <td>{{date}}</td>
+                <td>{{begin}}</td>
+                <td>{{ende}}</td>
+                <td>{{durationWork}}</td>
+            </tr>
+            {{/WorkingHours}}
+        </table>
+    </body>
+</html>

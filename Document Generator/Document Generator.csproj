@@ -6,4 +6,9 @@
     <RootNamespace>Document_Generator</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Handlebars.Net" Version="2.0.8" />
+    <PackageReference Include="HtmlToPDFCore" Version="1.0.2" />
+  </ItemGroup>
+
 </Project>
