@@ -7726,37 +7726,30 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Nikita\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
-    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "/Users/ivanbianko/.nuget/packages/": {},
+    "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\nikita\\projects\\Document Generator\\Document Generator\\Document Generator.csproj",
-      "projectName": "Document Generator",
-      "projectPath": "D:\\nikita\\projects\\Document Generator\\Document Generator\\Document Generator.csproj",
-      "packagesPath": "C:\\Users\\Nikita\\.nuget\\packages\\",
-      "outputPath": "D:\\nikita\\projects\\Document Generator\\Document Generator\\obj\\",
+      "projectUniqueName": "/Users/ivanbianko/dev/krafteq/nikitos/Document-Generator/DocumentGenerator/DocumentGenerator.csproj",
+      "projectName": "DocumentGenerator",
+      "projectPath": "/Users/ivanbianko/dev/krafteq/nikitos/Document-Generator/DocumentGenerator/DocumentGenerator.csproj",
+      "packagesPath": "/Users/ivanbianko/.nuget/packages/",
+      "outputPath": "/Users/ivanbianko/dev/krafteq/nikitos/Document-Generator/DocumentGenerator/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Nikita\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "/Users/ivanbianko/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net5.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {},
+        "https://www.myget.org/F/steinpilz-int/auth/17c81244-51af-4be3-858a-1fe79057639e/api/v3/index.json": {}
       },
       "frameworks": {
         "net5.0": {
@@ -7798,7 +7791,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.301/RuntimeIdentifierGraph.json"
       }
     }
   }

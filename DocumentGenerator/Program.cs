@@ -78,7 +78,7 @@ namespace Document_Generator
                 writer.WriteSafeString(durationWork.ToString(@"hh\:mm", new CultureInfo("en-US")));
             });
 
-            string html = System.IO.File.ReadAllText(@"D:\nikita\projects\Document Generator\Document Generator\index.html");
+            string html = System.IO.File.ReadAllText(@"D:\nikita\projects\DocumentGenerator\DocumentGenerator\index.html");
 
             var template = Handlebars.Compile(html);
 
@@ -92,9 +92,9 @@ namespace Document_Generator
             var htmlToPdf = new HtmlToPDFCore.HtmlToPDF();
             var pdf = htmlToPdf.ReturnPDF(result);
 
-            File.Delete(@"D:\nikita\projects\Document Generator\index.pdf");
+            File.Delete(@"D:\nikita\projects\DocumentGenerator\index.pdf");
 
-            FileStream fs = new FileStream(@"D:\nikita\projects\Document Generator\index.pdf", FileMode.CreateNew);
+            FileStream fs = new FileStream(@"D:\nikita\projects\DocumentGenerator\index.pdf", FileMode.CreateNew);
             fs.Write(pdf, 0, pdf.Length);
             fs.Close();
         }

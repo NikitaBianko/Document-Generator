@@ -1,0 +1,74 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/ivanbianko/dev/krafteq/nikitos/Document-Generator/Document Generator/Document Generator.csproj": {}
+  },
+  "projects": {
+    "/Users/ivanbianko/dev/krafteq/nikitos/Document-Generator/Document Generator/Document Generator.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/ivanbianko/dev/krafteq/nikitos/Document-Generator/Document Generator/Document Generator.csproj",
+        "projectName": "Document Generator",
+        "projectPath": "/Users/ivanbianko/dev/krafteq/nikitos/Document-Generator/Document Generator/Document Generator.csproj",
+        "packagesPath": "/Users/ivanbianko/.nuget/packages/",
+        "outputPath": "/Users/ivanbianko/dev/krafteq/nikitos/Document-Generator/Document Generator/obj/",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "/Users/ivanbianko/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {},
+          "https://www.myget.org/F/steinpilz-int/auth/17c81244-51af-4be3-858a-1fe79057639e/api/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "Handlebars.Net": {
+              "target": "Package",
+              "version": "[2.0.8, )"
+            },
+            "HtmlToPDFCore": {
+              "target": "Package",
+              "version": "[1.0.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.301/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
