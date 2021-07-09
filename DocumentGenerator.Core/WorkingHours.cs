@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace Document_Generator
+namespace DocumentGenerator.Core
 {
-    class WorkingHours
+    public class WorkingHours
     {
-        public DateTime Day { get; set; }
-        public TimeSpan BeginningOfWork { get; set; }
-        public TimeSpan DurationOfWork { get; set; }
+        public DateTime Day { get; }
+        public TimeSpan BeginningOfWork { get; }
+        public TimeSpan DurationOfWork { get; }
+        public TimeSpan EndOfWork => this.BeginningOfWork + this.DurationOfWork;
+        
         public WorkingHours(DateTime day, TimeSpan beginningOfWork, TimeSpan durationOfWork)
         {
             Day = day;
@@ -19,6 +20,5 @@ namespace Document_Generator
         {
             return $"{Day.Day}.{Day.Month}.{Day.Year} {BeginningOfWork} {BeginningOfWork + DurationOfWork} {DurationOfWork}";
         }
-
     }
 }

@@ -10,6 +10,10 @@ ProjectSection(SolutionItems) = preProject
 	.gitignore = .gitignore
 EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentGenerator.Core", "DocumentGenerator.Core\DocumentGenerator.Core.csproj", "{61C526C3-EFBC-4BC2-BA8C-EC0F9A59A3CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentGenerator.Core.Tests", "DocumentGenerator.Core.Tests\DocumentGenerator.Core.Tests.csproj", "{BEDA4BBC-79DD-497A-B978-E18BB71F6869}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +24,14 @@ Global
 		{5CE62BBB-2F28-488B-A881-DDB964F9DCE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CE62BBB-2F28-488B-A881-DDB964F9DCE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5CE62BBB-2F28-488B-A881-DDB964F9DCE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61C526C3-EFBC-4BC2-BA8C-EC0F9A59A3CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61C526C3-EFBC-4BC2-BA8C-EC0F9A59A3CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61C526C3-EFBC-4BC2-BA8C-EC0F9A59A3CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61C526C3-EFBC-4BC2-BA8C-EC0F9A59A3CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEDA4BBC-79DD-497A-B978-E18BB71F6869}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEDA4BBC-79DD-497A-B978-E18BB71F6869}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEDA4BBC-79DD-497A-B978-E18BB71F6869}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEDA4BBC-79DD-497A-B978-E18BB71F6869}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
