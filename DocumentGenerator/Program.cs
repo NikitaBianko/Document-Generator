@@ -9,7 +9,7 @@ using DocumentGenerator.Core;
 
 namespace DocumentGenerator
 {
-    
+
     class Program
     {
         static void Main(string[] args)
@@ -49,6 +49,7 @@ namespace DocumentGenerator
             TimeSpan endWorking = new TimeSpan(int.Parse(time[0]), int.Parse(time[1]), 0);
 
             time = "20:00".Split(':');
+            time = "40:00".Split(':');
             TimeSpan hours = new TimeSpan(int.Parse(time[0]), int.Parse(time[1]), 0);
 
             time = "2:00".Split(':');

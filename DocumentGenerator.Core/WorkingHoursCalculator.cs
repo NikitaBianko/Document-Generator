@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace DocumentGenerator.Core
@@ -11,7 +11,7 @@ namespace DocumentGenerator.Core
         {
             this.@params = @params;
         }
-        
+
         public List<WorkingHours> Calculate()
         {
             var requirements = @params.Requirements;
@@ -29,7 +29,7 @@ namespace DocumentGenerator.Core
             var document = new List<WorkingHours>();
 
             var workingDays = GetWorkingDays(@params.Year, @params.Month);
-            
+
             if (requirements.TotalMonthlyHours > MaxDailyWorkingHours * workingDays.Count)
                 throw new ArgumentException("average operating time is greater than maximum");
 
@@ -43,7 +43,7 @@ namespace DocumentGenerator.Core
             for (int day = 0; day < workingDays.Count; day++)
             {
                 workingHours.Add(average);
-                if(remainder.TotalMinutes != 0)
+                if (remainder.TotalMinutes != 0)
                     if (remainder.TotalMinutes > 0)
                     {
                         workingHours[day] += new TimeSpan(0, 30, 0);
@@ -58,7 +58,7 @@ namespace DocumentGenerator.Core
 
             Random rnd = new Random();
 
-            var Time = TimeSpan.FromMinutes(rnd.Next((int)(requirements.MinWorkingDayStart.TotalMinutes / 30), 
+            var Time = TimeSpan.FromMinutes(rnd.Next((int)(requirements.MinWorkingDayStart.TotalMinutes / 30),
                         (int)(requirements.MaxWorkingDayEnd - MaxDailyWorkingHours).TotalMinutes / 30) * 30);
 
             var workingDaysStart = new List<TimeSpan>(workingDays.Count);
@@ -103,7 +103,7 @@ namespace DocumentGenerator.Core
 
             return workingDays;
         }
-  
+
         public static List<TimeSpan> Noise(List<TimeSpan> days, TimeSpan minTime, TimeSpan maxTime)
         {
             for (int i = 0; i < days.Count && days.Count > 1; i++)
@@ -128,7 +128,7 @@ namespace DocumentGenerator.Core
                         if (time == maxTime) countMax++;
                         if (time == minTime) countMin++;
                     }
-                    if(countMax >= days.Count - 2 || countMin >= days.Count - 2)
+                    if (countMax >= days.Count - 2 || countMin >= days.Count - 2)
                         return days;
                     i--;
                     continue;
@@ -144,15 +144,15 @@ namespace DocumentGenerator.Core
 
             return days;
         }
-        
+
         private static List<TimeSpan> Smoothing(List<TimeSpan> time, TimeSpan minTime, TimeSpan maxTime)
         {
             Random rnd = new Random();
 
             for (int i = 0, j = time.Count - 1; i < time.Count - 1 && j > 0; i++, j--)
             {
-                if(time[i] >= minTime && time[i] < maxTime && time[i + 1] > minTime && time[i + 1] <= maxTime)
-                    if(time[i + 1] - time[i] > new TimeSpan(0, 30, 0) && rnd.Next(0, 2) != 0)
+                if (time[i] >= minTime && time[i] < maxTime && time[i + 1] > minTime && time[i + 1] <= maxTime)
+                    if (time[i + 1] - time[i] > new TimeSpan(0, 30, 0) && rnd.Next(0, 2) != 0)
                     {
                         time[i] += new TimeSpan(0, 30, 0);
                         time[i + 1] -= new TimeSpan(0, 30, 0);
@@ -168,7 +168,7 @@ namespace DocumentGenerator.Core
             return time;
 
         }
-        
+
         private static TimeSpan Rounding(TimeSpan time)
         {
             int numberOfHalfHours = (int)(time.TotalMinutes / 30);
@@ -178,7 +178,7 @@ namespace DocumentGenerator.Core
             else
                 return TimeSpan.FromMinutes(numberOfHalfHours * 30);
         }
-        
+
         private List<DateTime> GetWorkingDays(int year, int month)
         {
             var workingDay = new List<DateTime>();
@@ -189,6 +189,6 @@ namespace DocumentGenerator.Core
 
             return workingDay;
         }
-        
+
     }
 }
