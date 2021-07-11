@@ -27,7 +27,7 @@ namespace DocumentGenerator.Core
             var average = Rounding(requirements.TotalMonthlyHours / workingDays.Count);
             var remainder = requirements.TotalMonthlyHours - average * workingDays.Count;
 
-            List<TimeSpan> workingHours = new List<TimeSpan>(workingDays.Count);
+            var workingHours = new List<TimeSpan>(workingDays.Count);
 
             for (int day = 0; day < workingDays.Count; day++)
             {
@@ -49,8 +49,8 @@ namespace DocumentGenerator.Core
             int repeat = rnd.Next(1, (int)(Math.Ceiling((double)workingDays.Count / 10)));
             if (average == requirements.MinDailyWorkingHours && average.TotalMinutes / 30 < 3) repeat = 0;
 
-            for (int i = 0; i < 1; i++)
-                workingHours = Noise(requirements, workingHours);
+            for (int i = 0; i < repeat; i++)
+                workingHours = Noise(workingHours, requirements.MinDailyWorkingHours, requirements.MaxDailyWorkingHours);
 
             for (int it = 0; it < workingDays.Count; it++)
                 document.Add(new WorkingHours(workingDays[it], requirements.MinWorkingDayStart, workingHours[it]));
@@ -78,18 +78,18 @@ namespace DocumentGenerator.Core
             return workingDays;
         }
   
-        public static List<TimeSpan> Noise(WorkRequirements requirements, List<TimeSpan> workingHours)
+        public static List<TimeSpan> Noise(List<TimeSpan> days, TimeSpan minTime, TimeSpan maxTime)
         {
-            for (int i = 0; i < workingHours.Count && workingHours.Count > 1; i++)
+            for (int i = 0; i < days.Count && days.Count > 1; i++)
             {
                 Random rnd = new Random();
 
-                var x = rnd.Next(0, workingHours.Count);
-                var y = rnd.Next(0, workingHours.Count);
-                while (x == y) y = rnd.Next(0, workingHours.Count);
+                var x = rnd.Next(0, days.Count);
+                var y = rnd.Next(0, days.Count);
+                while (x == y) y = rnd.Next(0, days.Count);
 
-                int minimumRangeFirstPoint = (int)(Math.Min(Math.Abs((workingHours[x] - requirements.MinDailyWorkingHours).TotalMinutes), Math.Abs((requirements.MaxDailyWorkingHours - workingHours[x]).TotalMinutes))) / 30;
-                int minimumRangeSecondPoint = (int)(Math.Min(Math.Abs((workingHours[y] - requirements.MinDailyWorkingHours).TotalMinutes), Math.Abs((requirements.MaxDailyWorkingHours - workingHours[y]).TotalMinutes))) / 30;
+                int minimumRangeFirstPoint = (int)(Math.Min(Math.Abs((days[x] - minTime).TotalMinutes), Math.Abs((maxTime - days[x]).TotalMinutes))) / 30;
+                int minimumRangeSecondPoint = (int)(Math.Min(Math.Abs((days[y] - minTime).TotalMinutes), Math.Abs((maxTime - days[y]).TotalMinutes))) / 30;
 
                 int minimumRange = Math.Min(minimumRangeFirstPoint, minimumRangeSecondPoint);
 
@@ -97,41 +97,41 @@ namespace DocumentGenerator.Core
                 {
                     int countMax = 0;
                     int countMin = 0;
-                    foreach (var time in workingHours)
+                    foreach (var time in days)
                     {
-                        if (time == requirements.MaxDailyWorkingHours) countMax++;
-                        if (time == requirements.MinDailyWorkingHours) countMin++;
+                        if (time == maxTime) countMax++;
+                        if (time == minTime) countMin++;
                     }
-                    if(countMax >= workingHours.Count - 2 || countMin >= workingHours.Count - 2)
-                        return workingHours;
+                    if(countMax >= days.Count - 2 || countMin >= days.Count - 2)
+                        return days;
                     i--;
                     continue;
                 }
 
                 int change = rnd.Next(1, minimumRange);
 
-                workingHours[x] += TimeSpan.FromMinutes(change * 30);
-                workingHours[y] -= TimeSpan.FromMinutes(change * 30);
+                days[x] += TimeSpan.FromMinutes(change * 30);
+                days[y] -= TimeSpan.FromMinutes(change * 30);
 
-                workingHours = Smoothing(workingHours, requirements);
+                days = Smoothing(days, minTime, maxTime);
             }
 
-            return workingHours;
+            return days;
         }
         
-        private static List<TimeSpan> Smoothing(List<TimeSpan> time, WorkRequirements requirements)
+        private static List<TimeSpan> Smoothing(List<TimeSpan> time, TimeSpan minTime, TimeSpan maxTime)
         {
             Random rnd = new Random();
 
             for (int i = 0, j = time.Count - 1; i < time.Count - 1 && j > 0; i++, j--)
             {
-                if(time[i] >= requirements.MinDailyWorkingHours && time[i] < requirements.MaxDailyWorkingHours && time[i + 1] > requirements.MinDailyWorkingHours && time[i + 1] <= requirements.MaxDailyWorkingHours)
+                if(time[i] >= minTime && time[i] < maxTime && time[i + 1] > minTime && time[i + 1] <= maxTime)
                     if(time[i + 1] - time[i] > new TimeSpan(0, 30, 0) && rnd.Next(0, 2) != 0)
                     {
                         time[i] += new TimeSpan(0, 30, 0);
                         time[i + 1] -= new TimeSpan(0, 30, 0);
                     }
-                if (time[j] >= requirements.MinDailyWorkingHours && time[j] < requirements.MaxDailyWorkingHours && time[j - 1] > requirements.MinDailyWorkingHours && time[j - 1] <= requirements.MaxDailyWorkingHours)
+                if (time[j] >= minTime && time[j] < maxTime && time[j - 1] > minTime && time[j - 1] <= maxTime)
                     if (time[j - 1] - time[j] > new TimeSpan(0, 30, 0) && rnd.Next(0, 2) != 0)
                     {
                         time[j] += new TimeSpan(0, 30, 0);

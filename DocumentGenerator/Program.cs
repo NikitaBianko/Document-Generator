@@ -14,7 +14,7 @@ namespace DocumentGenerator
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("enter year/month");
+            //Console.WriteLine("enter year/month");
 
             // string[] date = Console.ReadLine().Split('/');
             // DateTime month = new DateTime(int.Parse(date[0]), int.Parse(date[1]), 1);
@@ -42,22 +42,14 @@ namespace DocumentGenerator
             string[] date = "2021/07".Split('/');
             DateTime month = new DateTime(int.Parse(date[0]), int.Parse(date[1]), 1);
 
-            Console.WriteLine("The begining of the work day\nenter hours:minutes");
-
             string[] time = "8:00".Split(':');
             TimeSpan startWorking = new TimeSpan(int.Parse(time[0]), int.Parse(time[1]), 0);
 
-            Console.WriteLine("number of working hours per month\nenter hours:minutes");
-
-            time = "20:00".Split(':');
+            time = "40:00".Split(':');
             TimeSpan hours = new TimeSpan(int.Parse(time[0]), int.Parse(time[1]), 0);
-
-            Console.WriteLine("minimum working hours\nenter hours:minutes");
 
             time = "2:00".Split(':');
             TimeSpan minHours = new TimeSpan(int.Parse(time[0]), int.Parse(time[1]), 0);
-
-            Console.WriteLine("maximum working hours\nenter hours:minutes");
 
             time = "5:00".Split(':');
             TimeSpan maxHours = new TimeSpan(int.Parse(time[0]), int.Parse(time[1]), 0);
@@ -75,10 +67,10 @@ namespace DocumentGenerator
             ));
 
 
-            // var pdfConverter = new PdfConverter();
-            // var pdfDocument = pdfConverter.Convert(htmlDocument);
-            //
-            // File.WriteAllBytes(Path.Combine(Directory.GetCurrentDirectory(), "output.pdf"), pdfDocument.Content);
+            var pdfConverter = new PdfConverter();
+            var pdfDocument = pdfConverter.Convert(htmlDocument);
+
+            File.WriteAllBytes(Path.Combine(Directory.GetCurrentDirectory(), "output.pdf"), pdfDocument.Content);
             File.WriteAllBytes(Path.Combine(Directory.GetCurrentDirectory(), "output.html"), htmlDocument.Content);
 
             Console.WriteLine("Done");
