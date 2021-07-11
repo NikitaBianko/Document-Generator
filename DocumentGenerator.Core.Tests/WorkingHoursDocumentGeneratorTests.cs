@@ -30,7 +30,7 @@ namespace DocumentGenerator.Core.Tests
             foreach (var day in result)
             {
                 Assert.True(day.BeginningOfWork >= requirements.MinDailyWorkingHours);
-                //Assert.True(day.EndOfWork <= requirements.MaxWorkingDayEnd);
+                Assert.True(day.EndOfWork <= requirements.MaxWorkingDayEnd);
             }
         }
     }
