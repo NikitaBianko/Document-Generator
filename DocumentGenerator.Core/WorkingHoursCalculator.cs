@@ -66,7 +66,7 @@ namespace DocumentGenerator.Core
             for (int i = 0; i < workingDays.Count; i++)
                 workingDaysStart.Add(Time);
 
-            int repeat = rnd.Next(1, (int)(Math.Ceiling((double)workingDays.Count / 10)));
+            int repeat = rnd.Next(1, (int)(Math.Ceiling((double)workingDays.Count / 5)));
             if (average == requirements.MinDailyWorkingHours && average.TotalMinutes / 30 < 3) repeat = 0;
 
             for (int i = 0; i < repeat; i++)

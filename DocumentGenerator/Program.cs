@@ -39,25 +39,26 @@ namespace DocumentGenerator
             // time = Console.ReadLine().Split(':');
             // TimeSpan maxHours = new TimeSpan(int.Parse(time[0]), int.Parse(time[1]), 0);
 
-            string[] date = "2021/07".Split('/');
+            string[] date = "2021/01".Split('/');
             DateTime month = new DateTime(int.Parse(date[0]), int.Parse(date[1]), 1);
 
             string[] time = "8:00".Split(':');
             TimeSpan startWorking = new TimeSpan(int.Parse(time[0]), int.Parse(time[1]), 0);
 
-            time = "15:00".Split(':');
+            time = "19:00".Split(':');
             TimeSpan endWorking = new TimeSpan(int.Parse(time[0]), int.Parse(time[1]), 0);
 
-            time = "20:00".Split(':');
-            time = "40:00".Split(':');
+            time = "120:00".Split(':');
             TimeSpan hours = new TimeSpan(int.Parse(time[0]), int.Parse(time[1]), 0);
 
             time = "2:00".Split(':');
             TimeSpan minHours = new TimeSpan(int.Parse(time[0]), int.Parse(time[1]), 0);
 
-            time = "5:00".Split(':');
+            time = "8:00".Split(':');
             TimeSpan maxHours = new TimeSpan(int.Parse(time[0]), int.Parse(time[1]), 0);
 
+            var pathToHolidaysFile = Path.Combine(Directory.GetCurrentDirectory(), "holidays.txt");
+            var holidays = File.ReadAllLines(pathToHolidaysFile).Select(date => DateTime.Parse(date)).ToList();
 
             var pathToTemplateFile = Path.Combine(Directory.GetCurrentDirectory(), "index.html");
             var htmlDocumentTemplate = new HandlebarsDocumentTemplate(File.ReadAllText(pathToTemplateFile));
@@ -67,7 +68,7 @@ namespace DocumentGenerator
             var htmlDocument = documentGenerator.Generate(new WorkingHoursParams(
                 month.Year, month.Month,
                 new WorkRequirements(hours, minHours, maxHours, startWorking, endWorking),
-                new SimpleWorkingDaysResolver(DateTime.MinValue, DateTime.MaxValue, new List<DateTime>())
+                new SimpleWorkingDaysResolver(DateTime.MinValue, DateTime.MaxValue, holidays)
             ));
 
 
