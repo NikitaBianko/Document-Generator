@@ -15,10 +15,5 @@ namespace DocumentGenerator.Core
             BeginningOfWork = beginningOfWork;
             DurationOfWork = durationOfWork;
         }
-
-        public override string ToString()
-        {
-            return $"{Day.Day}.{Day.Month}.{Day.Year} {BeginningOfWork} {BeginningOfWork + DurationOfWork} {DurationOfWork}";
-        }
     }
 }

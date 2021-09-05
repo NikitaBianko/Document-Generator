@@ -1,0 +1,81 @@
+﻿@page "/test"
+
+@using Models
+
+@inject NavigationManager UriHelper
+
+@*public string name { get; set; }
+    [Required]
+    public DateTime month { get; set; } = DateTime.Now;
+    [Required]
+    public double totalHours { get; set; }
+    [Required]
+    public double minWorkingHours { get; set; }
+    [Required]
+    //[MaxWorkingHours]
+    public double maxWorkingHours { get; set; }
+    [Required]
+    public string startWorkingDay { get; set; }
+    [Required]
+    //[EndWorkingDay]
+    public string endWorkingDay { get; set; }
+    [Required]
+    public string typeOfFile { get; set; }*@
+
+<div>
+    <h1>Document Generator</h1>
+
+    <form action="/document" method="get">
+        <p>
+            <label>Name:</label>
+            <input type="text" name="name" />
+        </p>
+        <p>
+            <label>Month:</label>
+            <input type="month" name="month" />
+        </p>
+        <p>
+            <label>Total working hours:</label>
+            <input type="number" name="totalHours" min="1" step="0.5" />
+        </p>
+        <p>
+            <label>Minimum working hours:</label>
+            <input type="number" name="minWorkingHours" step="0.5" max="24" min="1" />
+        </p>
+        <p>
+            <label>Maximum working hours:</label>
+            <input type="number" name="maxWorkingHours" max="24" min="1" step="0.5" />
+        </p>
+        <p>
+            <label>The begining of the work day:</label>
+            <input type="text" name="startWorkingDay" />
+        </p>
+        <p>
+            <label>end of the working day:</label>
+            <input type="text" name="endWorkingDay" />
+        </p>
+        <p>
+            <label>type of downloaded document:</label>
+            <select name="typeOfFile">
+                <option value="pdf">pdf</option>
+                <option value="html">html</option>
+            </select>
+        </p>
+
+        <input type="submit" value="Generate" />
+    </form>
+</div>
+
+
+<button @onclick="GetDocument">test</button>
+
+@code {
+    DocumentModel Document = new DocumentModel();
+
+    public void GetDocument()
+    {
+        UriHelper.NavigateTo("document?name=hi");
+        //document?name=name&month=2021-03&totalHours=40&minHours=6&maxHours=10.5&startWorkingDay=15%3A00&endWorkingDay=07%3A00
+
+    }
+}

@@ -1,0 +1,76 @@
+﻿@page "/"
+
+@using System.Text
+@using Models
+
+@inject NavigationManager UriHelper
+@inject HttpClient httpClient
+
+<div class="col-4">
+    <h1>Document Generator</h1>
+
+    <EditForm Model="@Document" OnValidSubmit="@GetDocument">
+        <DataAnnotationsValidator />
+        <div class="form-group">
+            <label>Name:</label>
+            <InputText class="form-control" @bind-Value=Document.name name="name" id="Name" />
+            <ValidationMessage For="() => Document.name" />
+        </div>
+        <div class="form-group">
+            <label>Month:</label>
+            <input type="month" class="form-control" @bind-value="Document.workingMonth" name="month" />
+            <ValidationMessage For="() => Document.workingMonth" />
+        </div>
+        <div class="form-group">
+            <label>Total working hours:</label>
+            <InputNumber class="form-control" @bind-Value=Document.totalHours step="0.5" name="totalHours" />
+            <ValidationMessage For="() => Document.totalHours" />
+        </div>
+        <div class="form-group">
+            <label>Minimum working hours:</label>
+            <InputNumber class="form-control" @bind-Value=Document.minWorkingHours name="minWorkingHours" step="0.5" />
+            <ValidationMessage For="() => Document.minWorkingHours" />
+        </div>
+        <div class="form-group">
+            <label>Maximum working hours:</label>
+            <InputNumber class="form-control" @bind-Value=Document.maxWorkingHours name="maxWorkingHours" step="0.5" /> @* max="24" min="1" *@
+            <ValidationMessage For="() => Document.maxWorkingHours" />
+        </div>
+        <div class="form-group">
+            <label>The begining of the work day:</label>
+            <InputText class="form-control" @bind-Value=Document.startWorkingDay name="startWorkingDay" />
+            <ValidationMessage For="() => Document.startWorkingDay" />
+        </div>
+        <div class="form-group">
+            <label>end of the working day:</label>
+            <InputText class="form-control" @bind-Value="Document.endWorkingDay" name="endWorkingDay" />
+            <ValidationMessage For="() => Document.endWorkingDay" />
+        </div>
+        <div class="form-group">
+            <label>type of downloaded document:</label>
+            <InputSelect class="form-control" @bind-Value=Document.typeOfFile name="typeOfFile">
+                <option value="pdf" selected>pdf</option>
+                <option value="html">html</option>
+            </InputSelect>
+            <ValidationMessage For="() => Document.typeOfFile" />
+        </div>
+
+        <input type="submit" class="btn btn-outline-primary" value="Generate" />
+    </EditForm>
+</div>
+
+@code {
+    DocumentModel Document = new DocumentModel();
+
+    public void GetDocument()
+    {
+
+        string request = $"?name={Document.name}&workingMonth={Document.workingMonth.ToString("MM-yyyy")}" +
+                        $"&totalHours={Document.totalHours}&minWorkingHours={Document.minWorkingHours}" +
+                        $"&maxWorkingHours={Document.maxWorkingHours}&startWorkingDay={Document.startWorkingDay}" +
+                        $"&endWorkingDay={Document.endWorkingDay}&typeOfFile={Document.typeOfFile}";
+
+        UriHelper.NavigateTo("document" + request);
+        //name=&month=&totalHours=&minWorkingHours=&maxWorkingHours=&startWorkingDay=&endWorkingDay=&typeOfFile=pdf
+    }
+}

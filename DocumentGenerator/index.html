@@ -1,40 +1,62 @@
 ﻿<html>
-    <head>
-        <style>
-            table {
-                border-collapse: collapse;
-                width: 100%;
-            }
+<head>
+    <style>
+        .holiday {
+            background-color: Silver;
+        }
 
-            td, th {
-                border: 1px solid black;
-                padding: 10px;
-            }
+        .working_day {
+        }
 
-            td {
-                text-align: center;
-            }
-        </style>
-        <title>Document</title>
-    </head>
-    <body>
-        <h1 style="text-align: center">Stundenzettel</h1>
-        <h2> Name:</h2>
-        <table>
-            <tr>
-                <th>Datum</th>
-                <th>beginn</th>
-                <th>Ende</th>
-                <th>Arbeitszeit</th>
-            </tr>
-            {{#WorkingHours}}
-            <tr>
-                <td>{{date}}</td>
-                <td>{{begin}}</td>
-                <td>{{ende}}</td>
-                <td>{{durationWork}}</td>
-            </tr>
-            {{/WorkingHours}}
-        </table>
-    </body>
+        .empty_day {
+            height: 26px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            border: 3px solid gray;
+            border-right: solid white;
+            border-left: solid white;
+        }
+
+        th {
+            font-size: 25;
+            border: 1px solid gray;
+            border-bottom: 2px solid gray;
+        }
+
+        td {
+            font-size: 22;
+            border: 1px solid gray;
+            padding: 2px;
+            text-align: center;
+        }
+
+        .name {
+            margin: 2px;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <h1 style="text-align: center">Stundenzettel</h1>
+    <h2 class="name">Name: {{name}}</h2>
+    <table>
+        <tr>
+            <th>Datum</th>
+            <th>Beginn</th>
+            <th>Ende</th>
+            <th>Arbeitszeit</th>
+        </tr>
+        {{#WorkingHours}}
+        <tr class="{{dateType}}">
+            <td>{{date}}</td>
+            <td>{{begin}}</td>
+            <td>{{ende}}</td>
+            <td>{{durationWork}}</td>
+        </tr>
+        {{/WorkingHours}}
+    </table>
+</body>
 </html>

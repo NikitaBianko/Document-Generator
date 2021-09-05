@@ -30,6 +30,9 @@ namespace DocumentGenerator.Core
 
             var workingDays = GetWorkingDays(@params.Year, @params.Month);
 
+            if (requirements.TotalMonthlyHours > workingDays.Count * new TimeSpan(24, 0, 0))
+                throw new ArgumentException("Working hours per day exceed 24 hours");
+
             if (requirements.TotalMonthlyHours > MaxDailyWorkingHours * workingDays.Count)
                 throw new ArgumentException("average operating time is greater than maximum");
 
@@ -75,8 +78,20 @@ namespace DocumentGenerator.Core
                 workingDaysStart = Noise(workingDaysStart, requirements.MinWorkingDayStart, requirements.MaxWorkingDayEnd - MaxDailyWorkingHours);
             }
 
-            for (int i = 0; i < workingDays.Count; i++)
-                document.Add(new WorkingHours(workingDays[i], workingDaysStart[i], workingHours[i]));
+            var date = new DateTime(@params.Year, @params.Month, 1);
+            for (int i = 1; i <= 31; i++)
+            {
+                if (date.Month == @params.Month)
+                {
+                    var id = workingDays.IndexOf(date);
+                    if (id >= 0)
+                        document.Add(new WorkingHours(workingDays[id], workingDaysStart[id], workingHours[id]));
+                    else
+                        document.Add(new WorkingHours(date, new TimeSpan(), new TimeSpan()));
+                }
+                else document.Add(new WorkingHours(new DateTime(), new TimeSpan(), new TimeSpan()));
+                date = date.AddDays(1);
+            }
 
             return document;
         }
