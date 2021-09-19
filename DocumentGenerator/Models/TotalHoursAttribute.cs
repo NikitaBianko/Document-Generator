@@ -3,14 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DocumentGenerator.Models
 {
-    internal class MaxWorkingHoursAttribute : ValidationAttribute
+    internal class TotalHoursAttribute : ValidationAttribute
     {
-        private readonly string hours;
         private readonly string month;
 
-        public MaxWorkingHoursAttribute(string hours, string month)
+        public TotalHoursAttribute(string month)
         {
-            this.hours = hours;
             this.month = month;
         }
 
@@ -30,22 +28,17 @@ namespace DocumentGenerator.Models
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var totalHours = validationContext.ObjectType.GetProperty(hours);
             var mon = validationContext.ObjectType.GetProperty(month);
 
             var workingMonth = (DateTime)mon.GetValue(validationContext.ObjectInstance);
-            var totalWorkingHours = (double)totalHours.GetValue(validationContext.ObjectInstance);
 
             int numberOfWorkingDaysOfMonth = GetWorkingDays(workingMonth);
 
-            var maxHour = (double)value;
+            var totalWorkingHours = (double)value;
 
-            if ((totalWorkingHours + numberOfWorkingDaysOfMonth - 1) / numberOfWorkingDaysOfMonth > maxHour)
-            {
+            if (totalWorkingHours > 24 * numberOfWorkingDaysOfMonth)
                 return new ValidationResult(ErrorMessage);
-            }
             return ValidationResult.Success;
         }
-
     }
 }

@@ -15,21 +15,21 @@ namespace DocumentGenerator.Controller
     public class DocumentsController : ControllerBase
     {
         [HttpGet]
-        public IActionResult Get(string name, string workingMonth, double totalHours, double minWorkingHours, double maxWorkingHours, string endWorkingDay, string startWorkingDay, string typeOfFile)
+        public IActionResult Get(string name, string workingMonth, string totalHours, string minWorkingHours, string maxWorkingHours, string endWorkingDay, string startWorkingDay, string typeOfFile)
         {
             try
             {
                 var month = DateTime.Parse(workingMonth);
 
-                var minHours = TimeSpan.FromHours(minWorkingHours);
+                var minHours = TimeSpan.FromHours(double.Parse(minWorkingHours));
 
-                var maxHours = TimeSpan.FromHours(maxWorkingHours);
+                var maxHours = TimeSpan.FromHours(double.Parse(maxWorkingHours));
 
                 var startWorking = TimeSpan.Parse(startWorkingDay);
 
                 var endWorking = TimeSpan.Parse(endWorkingDay);
 
-                var hours = TimeSpan.FromHours(totalHours);
+                var hours = TimeSpan.FromHours(double.Parse(totalHours));
 
                 if(name == null)
                 {
@@ -41,7 +41,7 @@ namespace DocumentGenerator.Controller
                     ModelState.AddModelError("endWorking", "Work end time is less than start time");
                 }
 
-                if(minWorkingHours > maxWorkingHours)
+                if(minHours > maxHours)
                 {
                     ModelState.AddModelError("maxWorkingHours", "Maximum running time is less than minimum");
                 }
