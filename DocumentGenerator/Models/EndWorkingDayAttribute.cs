@@ -28,9 +28,7 @@ namespace DocumentGenerator.Models
                 return new ValidationResult();*/
 
             if (startWorkingDay + maxWorkingHours > endWorkingDay)
-            {
                 return new ValidationResult(ErrorMessage);
-            }
             return ValidationResult.Success;
         }
 

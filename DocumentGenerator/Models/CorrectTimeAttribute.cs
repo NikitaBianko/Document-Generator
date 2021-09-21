@@ -19,7 +19,8 @@ namespace DocumentGenerator.Models
                 if(time.TotalHours > 0 && time.TotalHours < 24)
                     return ValidationResult.Success;
             }
-            catch {
+            catch 
+            {
                 return new ValidationResult(ErrorMessage);
             }
 

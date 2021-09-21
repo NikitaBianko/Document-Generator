@@ -41,9 +41,7 @@ namespace DocumentGenerator.Models
             var maxHour = (double)value;
 
             if ((totalWorkingHours + numberOfWorkingDaysOfMonth - 1) / numberOfWorkingDaysOfMonth > maxHour)
-            {
                 return new ValidationResult(ErrorMessage);
-            }
             return ValidationResult.Success;
         }
 
