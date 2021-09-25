@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading;
 
 namespace DocumentGenerator.Core
 {
@@ -14,6 +15,7 @@ namespace DocumentGenerator.Core
         
         public Document Generate(WorkingHoursParams @params, string name)
         {
+            Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("de-DE");
             var workingHours = new WorkingHoursCalculator(@params).Calculate();
             var document = this.documentTemplate.Generate(new
             {
@@ -22,7 +24,7 @@ namespace DocumentGenerator.Core
                 new
                 {
                     dateType = x.Day.Year != 1 ? @params.WorkingDayResolver.IsWorkingDay(x.Day) ? "working_day" : "holiday" : "empty_day",
-                    date = x.Day.Year != 1 ? $"{x.Day.ToString("dd.MM.yyyy")}({x.Day.DayOfWeek})" : "",
+                    date = x.Day.Year != 1 ? $"{x.Day.ToString("dd.MM.yyyy (ddd)")}" : "",
                     begin = x.DurationOfWork.Ticks != 0 ? x.BeginningOfWork.ToString("hh\\:mm") : "",
                     ende = x.DurationOfWork.Ticks != 0 ? x.EndOfWork.ToString("hh\\:mm") : "",
                     durationWork = x.DurationOfWork.Ticks != 0 ? x.DurationOfWork.ToString("hh\\:mm") : ""

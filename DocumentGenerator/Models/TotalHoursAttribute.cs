@@ -1,38 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DocumentGenerator.Models
 {
     internal class TotalHoursAttribute : ValidationAttribute
     {
-        private readonly string month;
+        private readonly string numberDays;
 
-        public TotalHoursAttribute(string month)
+        public TotalHoursAttribute(string numberDays)
         {
-            this.month = month;
-        }
-
-        public bool IsWorkingDay(DateTime day)
-        {
-            var dayOfWeek = new DateTime(day.Year, day.Month, day.Day).DayOfWeek;
-            return dayOfWeek != DayOfWeek.Saturday && dayOfWeek != DayOfWeek.Sunday;
-        }
-
-        int GetWorkingDays(DateTime mon)
-        {
-            int numberOfWorkinDays = 0;
-            for (var day = mon; day.Month == mon.Month; day = day.AddDays(1))
-                if (IsWorkingDay(day)) numberOfWorkinDays++;
-            return numberOfWorkinDays;
+            this.numberDays = numberDays;
         }
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var mon = validationContext.ObjectType.GetProperty(month);
+            var workingDays = validationContext.ObjectType.GetProperty(numberDays);
 
-            var workingMonth = (DateTime)mon.GetValue(validationContext.ObjectInstance);
-
-            int numberOfWorkingDaysOfMonth = GetWorkingDays(workingMonth);
+            int numberOfWorkingDaysOfMonth = (int)workingDays.GetValue(validationContext.ObjectInstance);
 
             var totalWorkingHours = (double)value;
 

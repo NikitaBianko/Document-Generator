@@ -1,6 +1,7 @@
 ﻿using MatBlazor;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,7 +27,6 @@ namespace DocumentGenerator
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<HttpClient>();
-            services.AddHttpClient();
             services.AddMatBlazor();
             services.AddControllersWithViews();
         }

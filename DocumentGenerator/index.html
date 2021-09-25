@@ -30,7 +30,6 @@
             font-size: 22;
             border: 1px solid gray;
             padding: 2px;
-            text-align: center;
         }
 
         .name {
@@ -51,10 +50,10 @@
         </tr>
         {{#WorkingHours}}
         <tr class="{{dateType}}">
-            <td>{{date}}</td>
-            <td>{{begin}}</td>
-            <td>{{ende}}</td>
-            <td>{{durationWork}}</td>
+            <td style="padding-left: 20%">{{date}}</td>
+            <td style="text-align: center">{{begin}}</td>
+            <td style="text-align: center">{{ende}}</td>
+            <td style="text-align: center">{{durationWork}}</td>
         </tr>
         {{/WorkingHours}}
     </table>

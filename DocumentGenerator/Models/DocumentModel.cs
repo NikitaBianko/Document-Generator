@@ -15,7 +15,7 @@ namespace DocumentGenerator.Models
         public DateTime workingMonth { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
         [Required(ErrorMessage = "Field is empty.")]
         [DivisibilityTime(ErrorMessage = "Time must be divisible by 30 minutes.")]
-        [TotalHours("workingMonth", ErrorMessage= "Working hours per day exceed 24 hours.")]
+        [TotalHours("numberOfWorkingDaysOfMonth", ErrorMessage = "Working hours per day exceed 24 hours.")]
         public double totalHours { get; set; }
         [Required(ErrorMessage = "Field is empty")]
         [CorrectTime(ErrorMessage = "Incorrect time.")]
@@ -25,7 +25,7 @@ namespace DocumentGenerator.Models
         [CorrectTime(ErrorMessage = "Incorrect time.")]
         [DivisibilityTime(ErrorMessage = "Time must be divisible by 30 minutes.")]
         [TimeComparison("minWorkingHours", ErrorMessage = "Maximum running time is less than minimum.")]
-        [MaxWorkingHours("totalHours",  "workingMonth", ErrorMessage = "Average operating time is greater than maximum.")]
+        [MaxWorkingHours("totalHours", "numberOfWorkingDaysOfMonth", ErrorMessage = "Average operating time is greater than maximum.")]
         public double maxWorkingHours { get; set; }
         [Required(ErrorMessage = "Field is empty")]
         [CorrectTime(ErrorMessage = "Incorrect time.")]
@@ -39,5 +39,20 @@ namespace DocumentGenerator.Models
         public string endWorkingDay { get; set; }
         [Required(ErrorMessage = "Field is empty.")]
         public TypeOfFile? typeOfFile { get; set; } = TypeOfFile.pdf;
+
+        public int numberOfWorkingDaysOfMonth => (this.workingMonth != null ? GetWorkingDays() : 0);
+        public List<DateTime> holidays { get; set; }
+        public bool IsWorkingDay(DateTime day)
+        {
+            var dayOfWeek = new DateTime(day.Year, day.Month, day.Day).DayOfWeek;
+            return dayOfWeek != DayOfWeek.Saturday && dayOfWeek != DayOfWeek.Sunday && !holidays.Contains(new DateTime(day.Year, day.Month, day.Day));
+        }
+        int GetWorkingDays()
+        {
+            int numberOfWorkinDays = 0;
+            for (var day = workingMonth; day.Month == workingMonth.Month; day = day.AddDays(1))
+                if (IsWorkingDay(day)) numberOfWorkinDays++;
+            return numberOfWorkinDays;
+        }
     }
 }

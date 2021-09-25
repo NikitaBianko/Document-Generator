@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DocumentGenerator.Models
@@ -6,41 +7,33 @@ namespace DocumentGenerator.Models
     internal class MaxWorkingHoursAttribute : ValidationAttribute
     {
         private readonly string hours;
-        private readonly string month;
+        private readonly string numberDays;
 
-        public MaxWorkingHoursAttribute(string hours, string month)
+        public MaxWorkingHoursAttribute(string hours, string numberDays)
         {
             this.hours = hours;
-            this.month = month;
+            this.numberDays = numberDays;
         }
 
-        public bool IsWorkingDay(DateTime day)
+        double Rounding(double n)
         {
-            var dayOfWeek = new DateTime(day.Year, day.Month, day.Day).DayOfWeek;
-            return dayOfWeek != DayOfWeek.Saturday && dayOfWeek != DayOfWeek.Sunday;
-        }
+            int m = (int)(n / 0.5);
 
-        int GetWorkingDays(DateTime mon)
-        {
-            int numberOfWorkinDays = 0;
-            for (var day = mon; day.Month == mon.Month; day = day.AddDays(1))
-                if (IsWorkingDay(day)) numberOfWorkinDays++;
-            return numberOfWorkinDays;
+            if (n - (m * 0.5) >= 0.5) return m + 0.5;
+            else return m * 0.5;
         }
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             var totalHours = validationContext.ObjectType.GetProperty(hours);
-            var mon = validationContext.ObjectType.GetProperty(month);
+            var workingDays = validationContext.ObjectType.GetProperty(numberDays);
 
-            var workingMonth = (DateTime)mon.GetValue(validationContext.ObjectInstance);
+            int numberOfWorkingDaysOfMonth = (int)workingDays.GetValue(validationContext.ObjectInstance);
             var totalWorkingHours = (double)totalHours.GetValue(validationContext.ObjectInstance);
-
-            int numberOfWorkingDaysOfMonth = GetWorkingDays(workingMonth);
 
             var maxHour = (double)value;
 
-            if ((totalWorkingHours + numberOfWorkingDaysOfMonth - 1) / numberOfWorkingDaysOfMonth > maxHour)
+            if (Rounding(totalWorkingHours / numberOfWorkingDaysOfMonth) >= maxHour)
                 return new ValidationResult(ErrorMessage);
             return ValidationResult.Success;
         }

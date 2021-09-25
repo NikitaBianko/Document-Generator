@@ -24,9 +24,6 @@ namespace DocumentGenerator.Models
 
             var endWorkingDay = TimeSpan.Parse((string)value);
 
-            /*if (startWorkingDay.TotalMinutes % 30 != 0)
-                return new ValidationResult();*/
-
             if (startWorkingDay + maxWorkingHours > endWorkingDay)
                 return new ValidationResult(ErrorMessage);
             return ValidationResult.Success;
