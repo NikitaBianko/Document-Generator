@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DocumentGenerator.Models
 {
-    internal class MaxWorkingHoursAttribute : ValidationAttribute
+    public class MaxWorkingHoursAttribute : ValidationAttribute
     {
         private readonly string hours;
         private readonly string numberDays;
@@ -34,7 +34,7 @@ namespace DocumentGenerator.Models
             var maxHour = (double)value;
 
             if (Rounding(totalWorkingHours / numberOfWorkingDaysOfMonth) >= maxHour)
-                return new ValidationResult(ErrorMessage);
+                return new ValidationResult(ErrorMessage, new[] { validationContext.MemberName });
             return ValidationResult.Success;
         }
 

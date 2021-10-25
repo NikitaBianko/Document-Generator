@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DocumentGenerator.Models
 {
-    internal class CorrectTimeAttribute : ValidationAttribute
+    public class CorrectTimeAttribute : ValidationAttribute
     {
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        public override bool IsValid(object value)
         {
             try
             {
@@ -16,15 +16,15 @@ namespace DocumentGenerator.Models
                 else
                     time = TimeSpan.Parse((string)value);
 
-                if(time.TotalHours > 0 && time.TotalHours < 24)
-                    return ValidationResult.Success;
+                if (time.TotalHours > 0 && time.TotalHours < 24)
+                    return true;
             }
             catch 
             {
-                return new ValidationResult(ErrorMessage);
+                return false;
             }
 
-            return new ValidationResult(ErrorMessage);
+            return false;
         }
     }
 }

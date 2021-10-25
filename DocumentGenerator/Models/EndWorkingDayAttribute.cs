@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DocumentGenerator.Models
 {
-    internal class EndWorkingDayAttribute : ValidationAttribute
+    public class EndWorkingDayAttribute : ValidationAttribute
     {
         private readonly string start;
         private readonly string hour;
@@ -25,7 +25,7 @@ namespace DocumentGenerator.Models
             var endWorkingDay = TimeSpan.Parse((string)value);
 
             if (startWorkingDay + maxWorkingHours > endWorkingDay)
-                return new ValidationResult(ErrorMessage);
+                return new ValidationResult(ErrorMessage, new[] { validationContext.MemberName });
             return ValidationResult.Success;
         }
 

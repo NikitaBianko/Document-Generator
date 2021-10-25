@@ -47,7 +47,7 @@ namespace DocumentGenerator.Models
             var dayOfWeek = new DateTime(day.Year, day.Month, day.Day).DayOfWeek;
             return dayOfWeek != DayOfWeek.Saturday && dayOfWeek != DayOfWeek.Sunday && !holidays.Contains(new DateTime(day.Year, day.Month, day.Day));
         }
-        int GetWorkingDays()
+        private int GetWorkingDays()
         {
             int numberOfWorkinDays = 0;
             for (var day = workingMonth; day.Month == workingMonth.Month; day = day.AddDays(1))
